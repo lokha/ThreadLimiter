@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="ThreadLimiter">
+    <output-path>$PROJECT_DIR$/out/artifacts/ThreadLimiter</output-path>
+    <root id="archive" name="ThreadLimiter.jar">
+      <element id="module-output" name="ThreadLimiter" />
+    </root>
+  </artifact>
+</component>

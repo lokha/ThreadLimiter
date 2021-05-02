@@ -1,0 +1,7 @@
+name: ThreadLimiter
+main: ru.sommerfugl.threadlimiter.ThreadLimiter
+version: 1.0
+author: Merkja
+commands:
+  threadlimiter:
+    description: Command to reload config.

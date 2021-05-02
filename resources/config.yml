@@ -1,0 +1,3 @@
+threadlimiter:
+  permission: "threadlimiter.command"
+  limit-threads: 300
