@@ -5,3 +5,4 @@ author: Merkja
 commands:
   threadlimiter:
     description: Command to reload config.
+    permission: threadlimiter.command

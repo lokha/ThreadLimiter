@@ -5,14 +5,12 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 
 
 public class ThreadLimiter extends JavaPlugin implements CommandExecutor {
 
-    private String threadPermission;
     private int threadLimit;
     private BukkitTask timer;
 
@@ -29,17 +27,17 @@ public class ThreadLimiter extends JavaPlugin implements CommandExecutor {
             } catch (Exception ignored) {}
             timer = null;
         }
-        threadLimit = this.getConfig().getInt(("threadlimiter.limit-threads"), 300);
-        threadPermission = this.getConfig().getString("threadlimiter.permission");
-        timer = this.getServer().getScheduler().runTaskTimer(this, new Runnable() {
+        threadLimit = this.getConfig().getInt(("limit-threads"), 300);
+        timer = this.getServer().getScheduler().runTaskTimerAsynchronously(this, new Runnable() {
             @Override
             public void run() {
-                if(Thread.activeCount() > threadLimit) {
-                    System.out.println("Количество потоков " + Thread.activeCount() + " выше лимита " + threadLimit + ", выключаем сервер..");
+                int activeCount = Thread.activeCount();
+                if(activeCount > threadLimit) {
+                    System.out.println("Количество потоков " + activeCount + " выше лимита " + threadLimit + ", выключаем сервер..");
                     Bukkit.shutdown();
                 }
             }
-        }, 100L, 100L);
+        }, 20, 20);
     }
 
     public void setupConfig() {
@@ -49,19 +47,9 @@ public class ThreadLimiter extends JavaPlugin implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-       if(sender instanceof Player) {
-           if (!sender.hasPermission(threadPermission)) {
-               sender.sendMessage(ChatColor.RED + "У вас недостаточно прав!");
-               return true;
-           }
-           sender.sendMessage(ChatColor.GREEN + "Конфиг успешно перезагружен!");
-           this.reloadConfig();
-           this.reloadConfigParams();
-           return true;
-       }
-       sender.sendMessage(ChatColor.GREEN + "Конфиг успешно перезагружен!");
-       this.reloadConfig();
-       this.reloadConfigParams();
-       return true;
+        sender.sendMessage(ChatColor.GREEN + "Конфиг успешно перезагружен!");
+        this.reloadConfig();
+        this.reloadConfigParams();
+        return true;
     }
 }

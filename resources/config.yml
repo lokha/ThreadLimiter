@@ -1,3 +1,4 @@
-threadlimiter:
-  permission: "threadlimiter.command"
-  limit-threads: 300
+# команда перезагрузки конфига - /threadlimiter, право threadlimiter.command
+
+# лимит потоков
+limit-threads: 300
